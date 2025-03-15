@@ -47,6 +47,7 @@ p {
 }
 .suggest_item {
   padding: 0px 10px;
+  border-radius: 8px;
 }
 .selected {
   background-color: rgb(80,81,89);

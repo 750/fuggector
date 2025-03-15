@@ -70,7 +70,12 @@ function App() {
 
       fetch("http://127.0.0.1:9099/suggest?"+params.toString())
       .then((response) => response.json())
-      .then((data) => {setItems(([{text: newQuery} as SuggestItemPropsApi].concat(data))); setSelectedIndex(0)});
+      .then((data) => {
+        let newItems = [{text: newQuery} as SuggestItemPropsApi].concat(data);
+        if (!data.length) newItems = []
+        setItems(newItems);
+         setSelectedIndex(0)
+      });
 
     setQuery(newQuery);
   }
