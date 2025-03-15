@@ -1,16 +1,30 @@
+body {
+  background-color: rgb(36,38,47);
+  color: rgb(211,212,214);
+  font-size: 18px;
+  font-family: monospace;
+}
+
 .App {
-  text-align: center;
+  /* text-align: center; */
+  margin-left: 15%;
+  width: 70%;
+  padding: 10px
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input {
+  width: 100%;
+  /* border: 1px solid white; */
+  border: none;
+  padding: 10px;
+  background-color: rgb(36,38,47);
+  color: rgb(211,212,214);
+  font-size: 18px;
+  font-family: monospace;
+  margin-bottom: 1em;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+input:focus {
+  outline: none;
 }
 
 .App-header {
@@ -26,6 +40,16 @@
 
 .App-link {
   color: #61dafb;
+}
+p {
+  margin: 0;
+  padding: 10px 0;
+}
+.suggest_item {
+  padding: 0px 10px;
+}
+.selected {
+  background-color: rgb(80,81,89);
 }
 
 @keyframes App-logo-spin {
