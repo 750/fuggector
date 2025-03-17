@@ -5,6 +5,10 @@ body {
   font-family: monospace;
 }
 
+a {
+  color: rgb(180, 194, 255)
+}
+
 .App {
   /* text-align: center; */
   margin-left: 15%;
