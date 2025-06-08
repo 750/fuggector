@@ -4,11 +4,16 @@ import json
 from typing import Callable
 from urllib.parse import urlparse, parse_qs
 
+import subprocess, time
+
+def system_paste(delay = 0.1):
+    time.sleep(delay)
+    subprocess.Popen(['osascript', '-e' 'tell application "System Events" to keystroke "v" using command down']).wait()
+
 
 @dataclasses.dataclass
 class FuggestItem:
-    text: str = None
-    url: str = None
+    text: str
     description: str = None
 
     def to_dict(self):
@@ -23,10 +28,10 @@ TEST_DATA = [
         description="some description",
     ),
     FuggestItem(
-        url="http://ya.ru/url/only",
+        text="http://ya.ru/url/only",
     ),
     FuggestItem(
-        url="http://ya.ru/url/and/description",
+        text="http://ya.ru/url/and/description",
         description="some description",
     ),
     FuggestItem(
@@ -43,10 +48,11 @@ class MyHandler(SimpleHTTPRequestHandler):
         path = url_parts.path
 
         if path == "/api":
-            print(f"url: {url_parts}")
-            print(f"query_params: {query_params}")
+            # print(f"url: {url_parts}")
+            # print(f"query_params: {query_params}")
 
             query = query_params.get("query", [""])[0]
+            print(query)
             if query == "test":
                 items = TEST_DATA
             elif self.func is None:
@@ -62,17 +68,40 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(response)))
             self.end_headers()
             self.wfile.write(response)
+        elif path == "/paste":
+            system_paste()
+            return super().do_GET()
         else:
             return super().do_GET()
+
+    def log_request(self, code='-', size='-'):
+        """Log an accepted request.
+
+        This is called by send_response().
+
+        """
+        # if isinstance(code, HTTPStatus):
+        #     code = code.value
+        if "/api" in self.requestline:
+            self.log_message('"%s" %s',
+                            self.requestline[:80], str(code))
+
+
+async def hehe():
+    pass
+
 
 def run_fuggect_server(func: Callable[[str], list[FuggestItem]] = None):
     import os
 
-    os.chdir('build')
+    hehe()
+
+    os.chdir('dist')
 
     server_address = ('localhost', 9090)
     MyHandler.func = func
     httpd = HTTPServer(server_address, MyHandler)
+    print(f"🤚 starting server on http://{server_address[0]}:{server_address[1]}", server_address)
     httpd.serve_forever()
 
 if __name__ == "__main__":
